@@ -1,15 +1,26 @@
 "use client";
 
-import ErrorLoadData from "@/components/ErrorLoadData";
+import { useCallback, useEffect, useState } from "react";
+import {
+  ReadonlyURLSearchParams,
+  usePathname,
+  useSearchParams,
+} from "next/navigation";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import axios from "axios";
+
+import ErrorLoadData from "@/components/ErrorLoadData";
+import Table from "@/components/Table";
+import { IClients } from "@/constant/type";
 
 const CRM = () => {
-  const searchParams = useSearchParams();
-  const currentPath = usePathname();
+  const [clients, setClients] = useState<IClients[] | undefined>();
+  const [error, setError] = useState<boolean>(false);
 
-  const activeTab = searchParams.get("tab");
+  const searchParams: ReadonlyURLSearchParams = useSearchParams();
+  const currentPath: string = usePathname();
+
+  const activeTab: String | null = searchParams.get("tab");
 
   const createQueryParams = useCallback(
     (name: string, value: string) => {
@@ -20,6 +31,17 @@ const CRM = () => {
     },
     [searchParams]
   );
+
+  const fetchClient = async () => {
+    await axios
+      .get("https://interview-test-mock-api.azurewebsites.net/clients")
+      .then((data) => setClients(data.data))
+      .catch(() => setError(true));
+  };
+
+  useEffect(() => {
+    fetchClient();
+  }, []);
 
   return (
     <section className="mt-2 px-6 sm:px-10 lg:px-28 flex flex-col gap-5">
@@ -64,9 +86,7 @@ const CRM = () => {
         </li>
       </ul>
 
-      <div>
-        <ErrorLoadData />
-      </div>
+      <div>{error ? <ErrorLoadData /> : <Table clients={clients} />}</div>
     </section>
   );
 };

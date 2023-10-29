@@ -9,7 +9,7 @@ import Avatar from "@/assets/Avatar.png";
 
 const Navbar = () => {
   return (
-    <nav className="flex justify-between items-center px-6 sm:px-10 lg:px-28 py-5 border-b border-ternary">
+    <nav className="flex justify-between items-center px-6 sm:px-10 lg:px-28 py-5 border-b border-ternary z-50 sticky top-0 bg-white">
       <div className="flex items-center gap-7">
         <Link href={"/"}>
           <Image src={CompanyLogo} alt={"company logo"} priority />
