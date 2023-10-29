@@ -1,5 +1,6 @@
 "use client";
 
+import ErrorLoadData from "@/components/ErrorLoadData";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
@@ -62,6 +63,10 @@ const CRM = () => {
           </Link>
         </li>
       </ul>
+
+      <div>
+        <ErrorLoadData />
+      </div>
     </section>
   );
 };
