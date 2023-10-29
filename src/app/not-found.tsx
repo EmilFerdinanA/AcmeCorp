@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import ArrowLeft from "@/assets/arrow-left.svg";
-import Link from "next/link";
 
 export default function NotFound() {
   const router = useRouter();

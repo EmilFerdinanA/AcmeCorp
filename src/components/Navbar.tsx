@@ -12,7 +12,7 @@ const Navbar = () => {
     <nav className="flex justify-between items-center px-6 sm:px-10 lg:px-28 py-5 border-b border-ternary">
       <div className="flex items-center gap-7">
         <Link href={"/"}>
-          <Image src={CompanyLogo} alt={"company logo"} />
+          <Image src={CompanyLogo} alt={"company logo"} priority />
         </Link>
 
         <ul className="hidden gap-4 font-semibold lg:flex">
