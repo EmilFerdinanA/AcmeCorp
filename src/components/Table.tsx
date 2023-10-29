@@ -1,7 +1,4 @@
-import Image from "next/image";
-import alert from "@/assets/alert-triangle.svg";
-
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import Search from "./Search";
 import { IClients } from "@/constant/type";
 
@@ -16,19 +13,13 @@ const Table: React.FC<TableProps> = ({ clients }) => {
         <Search clients={clients} />
       </section>
 
-      <section className="bg-white shadow-sm border border-gray-200 rounded-xl flex flex-col gap-6 items-center justify-center h-[40vh] sm:h-[50vh] lg:h-[60vh] text-center px-4">
-        <Image src={alert} alt={"alert"} />
-        <div>
-          <h4 className="mb-1 text-rose-900 text-base font-semibold">
-            Opps! Unable to load clients
-          </h4>
-          <p className="text-rose-900 text-sm font-normal">
-            Something went wrong that we didn’t anticipate.
-          </p>
+      <section className="overflow-x-auto">
+        <div className="shadow-sm border border-gray-200 rounded-xl h-[40vh] sm:h-[50vh] lg:h-[60vh] w-[1110px] sm:w-full">
+          <input
+            type="checkbox"
+            className="border border-gray-300 h-5 w-5 appearance-none rounded-md relative checked:bg-[#d1e9ff] hover:bg-[#d1e9ff] checked:border-primary2 hover:border-primary2 checked:bg-[url('/checkmark.png')] bg-center bg-cover cursor-pointer"
+          />
         </div>
-        <button className="shadow border-gray-300 rounded-lg text-base text-gray-700 font-semibold px-5 py-3 bg-white">
-          Retry
-        </button>
       </section>
     </Fragment>
   );
