@@ -58,7 +58,7 @@ const Search: React.FC<SearchProps> = ({ clients }) => {
       </div>
 
       {dropdownMenu && (
-        <div className="absolute rounded-lg bg-white w-full sm:w-80 top-[60px] px-4 py-3 shadow-lg border overflow-y-scroll h-[35vh] flex flex-col">
+        <div className="absolute rounded-lg bg-white w-full sm:w-80 top-[60px] px-4 py-3 shadow-lg border overflow-y-scroll h-[35vh] flex flex-col z-10">
           {clients?.map((client: IClients) => (
             <div
               onClick={() => handleSelectClient(client.name)}
