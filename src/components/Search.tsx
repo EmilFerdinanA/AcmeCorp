@@ -7,17 +7,20 @@ import checkmark from "@/assets/checkmark.png";
 
 interface SearchProps {
   clients: IClients[] | undefined;
+  SearchByName: (name: string | null) => void;
 }
 
-const Search: React.FC<SearchProps> = ({ clients }) => {
+const Search: React.FC<SearchProps> = ({ clients, SearchByName }) => {
   const [selectedClient, setSelectedClient] = useState<string | null>(null);
   const [dropdownMenu, setDropdownMenu] = useState<boolean>(false);
 
   const handleSelectClient = (name: string) => {
     if (name === selectedClient) {
       setSelectedClient(null);
+      SearchByName(null);
     } else {
       setSelectedClient(name);
+      SearchByName(name);
     }
   };
 

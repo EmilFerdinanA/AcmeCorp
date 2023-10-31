@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 
 import { IClients } from "@/constant/type";
@@ -13,15 +13,22 @@ interface TableProps {
 
 const Table: React.FC<TableProps> = ({ clients }) => {
   const [selectAll, setSelectAll] = useState<boolean>(false);
+  const [client, setClient] = useState(clients);
   const [checkedClients, setCheckedClients] = useState<{
     [key: string]: boolean;
   }>({});
   const [page, setPage] = useState<number>(1);
 
-  const data = clients?.slice(
-    page === 1 ? 0 : (page - 1) * 3,
-    clients.length - page * 3 < 0 ? clients.length : page * 3
-  );
+  useEffect(() => {
+    if (clients) {
+      setClient(
+        clients?.slice(
+          page === 1 ? 0 : (page - 1) * 3,
+          clients.length - page * 3 < 0 ? clients.length : page * 3
+        )
+      );
+    }
+  }, [clients, page]);
 
   const handleCheckboxChange = (clientId: string, isChecked: boolean) => {
     setCheckedClients((prevCheckedClients) => ({
@@ -44,10 +51,23 @@ const Table: React.FC<TableProps> = ({ clients }) => {
     setCheckedClients(updatedCheckedClients);
   };
 
+  const data = clients?.slice(
+    page === 1 ? 0 : (page - 1) * 3,
+    clients.length - page * 3 < 0 ? clients.length : page * 3
+  );
+
+  const SearchByName = (name: string | null) => {
+    if (name == null) {
+      setClient(data);
+    } else {
+      setClient(clients?.filter((client) => client.name === name));
+    }
+  };
+
   return (
     <Fragment>
-      <section className="mb-5">
-        <Search clients={clients} />
+      <section className="mb-5 flex items-center gap-2">
+        <Search clients={clients} SearchByName={SearchByName} />
       </section>
 
       <section className="overflow-auto">
@@ -60,7 +80,7 @@ const Table: React.FC<TableProps> = ({ clients }) => {
                 onChange={(e) => handleSelectAllChange(e.target.checked)}
                 className="border border-gray-300 h-5 w-5 appearance-none rounded-md relative bg-white checked:bg-[#d1e9ff] hover:bg-[#d1e9ff] checked:border-primary2 hover:border-primary2 checked:bg-[url('/checkmark.png')] bg-center bg-cover cursor-pointer"
               />
-              <div className="">Name</div>
+              <div>Name</div>
             </div>
             <div className="col-span-1 flex gap-1">
               Gender{" "}
@@ -73,7 +93,7 @@ const Table: React.FC<TableProps> = ({ clients }) => {
             <div className="col-span-2">Employment</div>
           </div>
 
-          {data?.map((client: IClients) => {
+          {client?.map((client: IClients) => {
             return (
               <div
                 key={client.id}
