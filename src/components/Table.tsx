@@ -16,6 +16,12 @@ const Table: React.FC<TableProps> = ({ clients }) => {
   const [checkedClients, setCheckedClients] = useState<{
     [key: string]: boolean;
   }>({});
+  const [page, setPage] = useState<number>(1);
+
+  const data = clients?.slice(
+    page === 1 ? 0 : (page - 1) * 3,
+    clients.length - page * 3 < 0 ? clients.length : page * 3
+  );
 
   const handleCheckboxChange = (clientId: string, isChecked: boolean) => {
     setCheckedClients((prevCheckedClients) => ({
@@ -67,7 +73,7 @@ const Table: React.FC<TableProps> = ({ clients }) => {
             <div className="col-span-2">Employment</div>
           </div>
 
-          {clients?.map((client: IClients) => {
+          {data?.map((client: IClients) => {
             return (
               <div
                 key={client.id}
