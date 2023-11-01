@@ -40,11 +40,11 @@ const Search: React.FC<SearchProps> = ({ clients, SearchByName }) => {
   };
 
   return (
-    <section className="relative">
+    <section className="relative w-full sm:w-80">
       {dropdownMenu && (
         <div
           onClick={() => setDropdownMenu(!dropdownMenu)}
-          className="fixed h-screen w-screen top-0 left-0"
+          className="fixed h-screen w-screen top-0 left-0 z-20"
         />
       )}
 
@@ -52,7 +52,7 @@ const Search: React.FC<SearchProps> = ({ clients, SearchByName }) => {
         <Image src={search} alt={"search"} className="absolute left-3" />
         <div
           onClick={() => setDropdownMenu(!dropdownMenu)}
-          className={`w-full sm:w-80 border border-gray-300 font-normal text-base outline-none rounded-lg shadow py-3 px-4 pl-10 ${
+          className={`w-full sm:w-80 border border-gray-300 font-normal text-base outline-none rounded-lg shadow py-3 px-4 pl-10 z-20 ${
             dropdownMenu && "outline-[#84caff] ring-8 ring-[#f4ebff]"
           }`}
         >
@@ -61,7 +61,7 @@ const Search: React.FC<SearchProps> = ({ clients, SearchByName }) => {
       </div>
 
       {dropdownMenu && (
-        <div className="absolute rounded-lg bg-white w-full sm:w-80 top-[60px] px-4 py-3 shadow-lg border overflow-y-scroll h-[35vh] flex flex-col z-10">
+        <div className="absolute rounded-lg bg-white w-full sm:w-80 top-[60px] px-4 py-3 shadow-lg border overflow-y-scroll h-[35vh] flex flex-col z-30">
           {clients?.map((client: IClients) => (
             <div
               onClick={() => handleSelectClient(client.name)}

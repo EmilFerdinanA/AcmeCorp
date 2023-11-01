@@ -6,6 +6,7 @@ import { FormattedDate } from "@/utils/FormattedDate";
 import ArrowUp from "@/assets/arrow-up.svg";
 import Avatar from "@/assets/Avatar.png";
 import Search from "./Search";
+import SearchSpecific from "./SearchSpecific";
 
 interface TableProps {
   clients: IClients[] | undefined;
@@ -18,6 +19,10 @@ const Table: React.FC<TableProps> = ({ clients }) => {
     [key: string]: boolean;
   }>({});
   const [page, setPage] = useState<number>(1);
+
+  const gender = ["Male", "Female"];
+  const martialStatus = ["Single", "Married", "Divorced"];
+  const employment = ["Unemployed", "Employed"];
 
   useEffect(() => {
     if (clients) {
@@ -66,8 +71,25 @@ const Table: React.FC<TableProps> = ({ clients }) => {
 
   return (
     <Fragment>
-      <section className="mb-5 flex items-center gap-2">
+      <section className="mb-5 flex flex-col lg:flex-row lg:items-center gap-6">
         <Search clients={clients} SearchByName={SearchByName} />
+        <div className="flex flex-col sm:flex-row gap-6">
+          <SearchSpecific
+            placeholder={"Gender"}
+            className="sm:w-24"
+            dropdownMenus={gender}
+          />
+          <SearchSpecific
+            placeholder={"Marital Status"}
+            className="sm:w-36"
+            dropdownMenus={martialStatus}
+          />
+          <SearchSpecific
+            placeholder={"Employment"}
+            className="sm:w-32"
+            dropdownMenus={employment}
+          />
+        </div>
       </section>
 
       <section className="overflow-auto">
