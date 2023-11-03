@@ -7,6 +7,7 @@ import ArrowUp from "@/assets/arrow-up.svg";
 import Avatar from "@/assets/Avatar.png";
 import Search from "./Search";
 import SearchSpecific from "./SearchSpecific";
+import Pagination from "./Pagination";
 
 interface TableProps {
   clients: IClients[] | undefined;
@@ -32,6 +33,7 @@ const Table: React.FC<TableProps> = ({ clients }) => {
   const [selectedClient, setSelectedClient] = useState<string | null>(null);
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [isSearch, setIsSearch] = useState<boolean>(false);
+  const [isSearchByName, setIsSearchByName] = useState<boolean>(false);
   const [checkedClients, setCheckedClients] = useState<{
     [key: string]: boolean;
   }>({});
@@ -131,6 +133,7 @@ const Table: React.FC<TableProps> = ({ clients }) => {
       [gender]: isChecked,
     }));
     setSelectedClient(null);
+    setIsSearchByName(false);
     setClient(data);
   };
 
@@ -161,8 +164,10 @@ const Table: React.FC<TableProps> = ({ clients }) => {
     if (name == null) {
       setPage(1);
       setClient(data);
+      setIsSearchByName(false);
     } else {
       setClient(clients?.filter((client) => client.name === name));
+      setIsSearchByName(true);
     }
   };
 
@@ -202,7 +207,7 @@ const Table: React.FC<TableProps> = ({ clients }) => {
 
       <section className="overflow-auto">
         <div className="shadow-sm border border-gray-200 rounded-xl w-[1280px] xl:w-full ">
-          <div className="grid grid-cols-12 items-center px-6 py-3 text-gray-600 text-xs font-medium bg-gray-50 rounded-t-xl border-b border-gray-2002">
+          <div className="grid grid-cols-12 items-center px-6 py-3 text-gray-600 text-xs font-medium bg-gray-50 rounded-t-xl border-b border-gray-200">
             <div className="col-span-6 flex gap-3 items-center">
               <input
                 name="allClient"
@@ -255,6 +260,12 @@ const Table: React.FC<TableProps> = ({ clients }) => {
               );
             }
           )}
+          <Pagination
+            setPage={setPage}
+            Page={page}
+            client={isSearch ? dataFilteredClient || [] : clients || []}
+            isSearch={isSearchByName}
+          />
         </div>
       </section>
     </Fragment>
