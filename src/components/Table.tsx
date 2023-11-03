@@ -18,10 +18,13 @@ const initialFilters = {
   Single: false,
   Married: false,
   Divorced: false,
+  Unemployed: false,
+  Employed: false,
 };
 
 const gender = ["Male", "Female"];
 const maritalstatus = ["Single", "Married", "Divorced"];
+const Employment = ["Unemployed", "Employed"];
 
 const Table: React.FC<TableProps> = ({ clients }) => {
   const [client, setClient] = useState<IClients[] | undefined>(clients);
@@ -99,6 +102,15 @@ const Table: React.FC<TableProps> = ({ clients }) => {
           );
         });
       }
+
+      if (filters.Unemployed || filters.Employed) {
+        filteredClients = filteredClients.filter((item) => {
+          return (
+            (filters.Unemployed && item.employmentStatus === "Unemployed") ||
+            (filters.Employed && item.employmentStatus === "Employed")
+          );
+        });
+      }
     }
 
     setDataFilteredClient(filteredClients);
@@ -112,7 +124,7 @@ const Table: React.FC<TableProps> = ({ clients }) => {
     }));
   };
 
-  const SearchByGender = (gender: string, isChecked: boolean) => {
+  const SearchSpecificCriteria = (gender: string, isChecked: boolean) => {
     setPage(1);
     setFilters((prevFilters: any) => ({
       ...prevFilters,
@@ -168,14 +180,21 @@ const Table: React.FC<TableProps> = ({ clients }) => {
             placeholder={"Gender"}
             className="sm:w-24"
             dropdownMenus={gender}
-            Search={SearchByGender}
+            Search={SearchSpecificCriteria}
             initFilter={filters}
           />
           <SearchSpecific
             placeholder={"Marital Status"}
             className="sm:w-36"
             dropdownMenus={maritalstatus}
-            Search={SearchByGender}
+            Search={SearchSpecificCriteria}
+            initFilter={filters}
+          />
+          <SearchSpecific
+            placeholder={"Employment"}
+            className="sm:w-32"
+            dropdownMenus={Employment}
+            Search={SearchSpecificCriteria}
             initFilter={filters}
           />
         </div>
@@ -183,9 +202,10 @@ const Table: React.FC<TableProps> = ({ clients }) => {
 
       <section className="overflow-auto">
         <div className="shadow-sm border border-gray-200 rounded-xl w-[1280px] xl:w-full ">
-          <div className="grid grid-cols-12 items-center px-6 py-3 text-gray-600 text-xs font-medium bg-gray-50 rounded-t-xl">
+          <div className="grid grid-cols-12 items-center px-6 py-3 text-gray-600 text-xs font-medium bg-gray-50 rounded-t-xl border-b border-gray-2002">
             <div className="col-span-6 flex gap-3 items-center">
               <input
+                name="allClient"
                 type="checkbox"
                 checked={selectAll}
                 onChange={(e) => handleSelectAllChange(e.target.checked)}
@@ -209,10 +229,11 @@ const Table: React.FC<TableProps> = ({ clients }) => {
               return (
                 <div
                   key={client.id}
-                  className="grid grid-cols-12 items-center px-6 py-4 text-gray-600 text-sm font-normal"
+                  className="grid grid-cols-12 items-center px-6 py-4 text-gray-600 text-sm font-normal border-b border-gray-200"
                 >
                   <div className="col-span-6 flex gap-3 items-center">
                     <input
+                      name="client"
                       type="checkbox"
                       checked={checkedClients[client.id] || false}
                       onChange={(e) => {

@@ -46,6 +46,7 @@ const SearchSpecific: React.FC<SearchSpecificProps> = ({
             return (
               <div key={menu} className="flex gap-3 items-center">
                 <input
+                  name="dropdown"
                   type="checkbox"
                   checked={initFilter[menu]}
                   onChange={(e) => handleCheckboxChange(menu, e.target.checked)}
