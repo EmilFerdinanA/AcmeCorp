@@ -45,7 +45,9 @@ const CRM = () => {
 
   return (
     <section className="mt-2 px-6 sm:px-10 lg:px-28 flex flex-col gap-5">
-      <h2 className="py-5 border-b border-ternary">CRM</h2>
+      <h2 className="py-5 border-b border-ternary text-3xl font-semibold">
+        CRM
+      </h2>
 
       <ul className="flex gap-2 items-center">
         <li>
