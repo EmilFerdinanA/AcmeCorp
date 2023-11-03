@@ -15,9 +15,13 @@ interface TableProps {
 const initialFilters = {
   Male: false,
   Female: false,
+  Single: false,
+  Married: false,
+  Divorced: false,
 };
 
 const gender = ["Male", "Female"];
+const maritalstatus = ["Single", "Married", "Divorced"];
 
 const Table: React.FC<TableProps> = ({ clients }) => {
   const [client, setClient] = useState<IClients[] | undefined>(clients);
@@ -74,16 +78,31 @@ const Table: React.FC<TableProps> = ({ clients }) => {
     );
     setIsSearch(isSearchSpecific);
 
-    const filtered = clients?.filter((item) => {
-      return (
-        (filters.Male && item.gender === "Male") ||
-        (filters.Female && item.gender === "Female") ||
-        (!filters.Male && !filters.Female)
-      );
-    });
+    let filteredClients = clients;
 
-    setDataFilteredClient(filtered);
-    setFilteredClient(filtered?.slice(0, 3));
+    if (filteredClients) {
+      if (filters.Male || filters.Female) {
+        filteredClients = filteredClients.filter((item) => {
+          return (
+            (filters.Male && item.gender === "Male") ||
+            (filters.Female && item.gender === "Female")
+          );
+        });
+      }
+
+      if (filters.Single || filters.Married || filters.Divorced) {
+        filteredClients = filteredClients.filter((item) => {
+          return (
+            (filters.Single && item.maritalStatus === "Single") ||
+            (filters.Married && item.maritalStatus === "Married") ||
+            (filters.Divorced && item.maritalStatus === "Divorced")
+          );
+        });
+      }
+    }
+
+    setDataFilteredClient(filteredClients);
+    setFilteredClient(filteredClients?.slice(0, 3));
   }, [clients, filters]);
 
   const handleCheckedClients = (clientId: string, isChecked: boolean) => {
@@ -149,6 +168,13 @@ const Table: React.FC<TableProps> = ({ clients }) => {
             placeholder={"Gender"}
             className="sm:w-24"
             dropdownMenus={gender}
+            Search={SearchByGender}
+            initFilter={filters}
+          />
+          <SearchSpecific
+            placeholder={"Marital Status"}
+            className="sm:w-36"
+            dropdownMenus={maritalstatus}
             Search={SearchByGender}
             initFilter={filters}
           />
