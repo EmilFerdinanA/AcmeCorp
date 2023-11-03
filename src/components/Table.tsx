@@ -34,11 +34,16 @@ const Table: React.FC<TableProps> = ({ clients }) => {
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [isSearchByName, setIsSearchByName] = useState<boolean>(false);
+  const [isSorting, setIsSorting] = useState<number>(1);
   const [checkedClients, setCheckedClients] = useState<{
     [key: string]: boolean;
   }>({});
 
   const [dataFilteredClient, setDataFilteredClient] = useState<
+    IClients[] | undefined
+  >([]);
+
+  const [dataSortingClient, setDataSortingClient] = useState<
     IClients[] | undefined
   >([]);
   const [filteredClient, setFilteredClient] = useState<IClients[] | undefined>(
@@ -53,6 +58,13 @@ const Table: React.FC<TableProps> = ({ clients }) => {
   const data = clients?.slice(
     page === 1 ? 0 : (page - 1) * 3,
     clients.length - page * 3 < 0 ? clients.length : page * 3
+  );
+
+  const dataSorting = dataSortingClient?.slice(
+    page === 1 ? 0 : (page - 1) * 3,
+    dataSortingClient.length - page * 3 < 0
+      ? dataSortingClient.length
+      : page * 3
   );
 
   const dataFilter = dataFilteredClient?.slice(
@@ -72,10 +84,53 @@ const Table: React.FC<TableProps> = ({ clients }) => {
     if (isSearch) {
       setFilteredClient(dataFilter);
     } else {
-      setClient(data);
+      dataSortingClient?.length! > 0 ? setClient(dataSorting) : setClient(data);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
+  useEffect(() => {
+    switch (isSorting) {
+      case 1:
+        if (isSearch && dataFilteredClient) {
+          const sortedClients = [...dataFilteredClient].sort((a, b) =>
+            a.gender.localeCompare(b.gender)
+          );
+          setDataFilteredClient(sortedClients);
+          setFilteredClient(sortedClients.slice(0, 3));
+        } else if (!isSearch && clients) {
+          const sortedClients = [...clients].sort((a, b) =>
+            a.gender.localeCompare(b.gender)
+          );
+          setDataSortingClient(sortedClients);
+          setClient(sortedClients.slice(0, 3));
+        }
+        break;
+      case 2:
+        if (isSearch && dataFilteredClient) {
+          const sortedClients = [...dataFilteredClient].sort((a, b) =>
+            b.gender.localeCompare(a.gender)
+          );
+          setDataFilteredClient(sortedClients);
+          setFilteredClient(sortedClients.slice(0, 3));
+        } else if (!isSearch && clients) {
+          const sortedClients = [...clients].sort((a, b) =>
+            b.gender.localeCompare(a.gender)
+          );
+          setDataSortingClient(sortedClients);
+          setClient(sortedClients.slice(0, 3));
+        }
+        break;
+      case 3:
+        if (isSearch && dataFilteredClient) {
+          setFilteredClient(dataFilter);
+        } else if (!isSearch && clients) {
+          setClient(data);
+        }
+        break;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSorting]);
 
   useEffect(() => {
     const isSearchSpecific = Object.values(filters).some(
@@ -128,6 +183,7 @@ const Table: React.FC<TableProps> = ({ clients }) => {
 
   const SearchSpecificCriteria = (gender: string, isChecked: boolean) => {
     setPage(1);
+    setDataSortingClient([]);
     setFilters((prevFilters: any) => ({
       ...prevFilters,
       [gender]: isChecked,
@@ -153,6 +209,7 @@ const Table: React.FC<TableProps> = ({ clients }) => {
 
   const SearchByName = (name: string | null) => {
     setDataFilteredClient([]);
+    setDataSortingClient([]);
 
     const updatedFilters = { ...filters };
 
@@ -169,6 +226,11 @@ const Table: React.FC<TableProps> = ({ clients }) => {
       setClient(clients?.filter((client) => client.name === name));
       setIsSearchByName(true);
     }
+  };
+
+  const sortingData = () => {
+    setPage(1);
+    setIsSorting((prev) => (prev === 3 ? 1 : prev + 1));
   };
 
   return (
@@ -218,7 +280,10 @@ const Table: React.FC<TableProps> = ({ clients }) => {
               />
               <div>Name</div>
             </div>
-            <div className="col-span-1 flex gap-1">
+            <div
+              onClick={() => sortingData()}
+              className="col-span-1 flex gap-1 cursor-pointer"
+            >
               Gender{" "}
               <span>
                 <Image src={ArrowUp} alt={"arrow up"} />
