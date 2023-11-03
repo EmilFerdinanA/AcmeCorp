@@ -9,7 +9,7 @@ import Avatar1 from "@/assets/Avatar1.png";
 const Detail = () => {
   const pathname = usePathname();
 
-  const client = pathname.split("/")[2]; // Memecah URL menjadi potongan-potongan
+  const client = pathname.split("/")[2];
   const cleanedName = decodeURIComponent(client).replace(/%20/g, " ");
 
   return (
