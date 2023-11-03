@@ -19,16 +19,16 @@ const Navbar = () => {
           <Link href={"/"}>
             <li>Dashboard</li>
           </Link>
-          <Link href={"CRM"}>
+          <Link href={"/CRM"}>
             <li>CRM</li>
           </Link>
-          <Link href={"submission"}>
+          <Link href={"/submission"}>
             <li>Submission</li>
           </Link>
-          <Link href={"commission"}>
+          <Link href={"/commission"}>
             <li>Commission</li>
           </Link>
-          <Link href={"LMS"}>
+          <Link href={"/LMS"}>
             <li>LMS</li>
           </Link>
         </ul>

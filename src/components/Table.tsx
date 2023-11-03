@@ -8,6 +8,7 @@ import Avatar from "@/assets/Avatar.png";
 import Search from "./Search";
 import SearchSpecific from "./SearchSpecific";
 import Pagination from "./Pagination";
+import Link from "next/link";
 
 interface TableProps {
   clients: IClients[] | undefined;
@@ -312,10 +313,15 @@ const Table: React.FC<TableProps> = ({ clients }) => {
                       }}
                       className="border border-gray-300 h-5 w-5 appearance-none rounded-md relative checked:bg-[#d1e9ff] hover:bg-[#d1e9ff] checked:border-primary2 hover:border-primary2 checked:bg-[url('/checkmark.png')] bg-center bg-cover cursor-pointer"
                     />
-                    <Image src={Avatar} alt={"avatar"} />
-                    <div className="text-gray-900 font-medium">
-                      {client.name}
-                    </div>
+                    <Link
+                      className="flex items-center gap-3"
+                      href={`CRM/${client.name}`}
+                    >
+                      <Image src={Avatar} alt={"avatar"} />
+                      <div className="text-gray-900 font-medium">
+                        {client.name}
+                      </div>
+                    </Link>
                   </div>
                   <div className="col-span-1">{client.gender}</div>
                   <div className="col-span-1">{FormattedDate(client.dob)}</div>

@@ -1,13 +1,22 @@
+"use client";
+
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+
 import Avatar from "@/assets/Avatar.png";
 import Avatar1 from "@/assets/Avatar1.png";
 
 const Detail = () => {
+  const pathname = usePathname();
+
+  const client = pathname.split("/")[2]; // Memecah URL menjadi potongan-potongan
+  const cleanedName = decodeURIComponent(client).replace(/%20/g, " ");
+
   return (
     <section className="mt-2 px-6 sm:px-10 lg:px-28 flex flex-col gap-5 pb-24">
       <div>
         <h2 className="py-5 border-b border-ternary text-3xl font-semibold">
-          Olivia Rhye
+          {cleanedName}
         </h2>
 
         <div className="bg-gray-50 rounded-xl py-5 px-6 text-gray-600 text-sm flex flex-col sm:flex-row gap-14 mt-8">
@@ -46,32 +55,32 @@ const Detail = () => {
 
           <div className="py-4 px-6 flex justify-between items-center border-b border-gray-200">
             <div className="text-sm font-medium text-gray-900">Expenses</div>
-            <div className="text-sm font-normal text-gray-600">$589.99</div>
+            <div className="text-sm font-normal text-gray-600">$328.85</div>
           </div>
 
           <div className="py-4 px-6 flex justify-between items-center border-b border-gray-200">
             <div className="text-sm font-medium text-gray-900">Savings</div>
-            <div className="text-sm font-normal text-gray-600">$589.99</div>
+            <div className="text-sm font-normal text-gray-600">$396.84</div>
           </div>
 
           <div className="py-4 px-6 flex justify-between items-center border-b border-gray-200">
-            <div className="text-sm font-medium text-gray-900">Savings</div>
-            <div className="text-sm font-normal text-gray-600">$589.99</div>
+            <div className="text-sm font-medium text-gray-900">Invesment</div>
+            <div className="text-sm font-normal text-gray-600">$406.27</div>
           </div>
 
           <div className="py-4 px-6 flex justify-between items-center border-b border-gray-200">
-            <div className="text-sm font-medium text-gray-900">Savings</div>
-            <div className="text-sm font-normal text-gray-600">$589.99</div>
+            <div className="text-sm font-medium text-gray-900">Debt</div>
+            <div className="text-sm font-normal text-gray-600">$778.35</div>
           </div>
 
           <div className="py-4 px-6 flex justify-between items-center border-b border-gray-200">
-            <div className="text-sm font-medium text-gray-900">Savings</div>
-            <div className="text-sm font-normal text-gray-600">$589.99</div>
+            <div className="text-sm font-medium text-gray-900">Cashflow</div>
+            <div className="text-sm font-normal text-gray-600">$490.51</div>
           </div>
 
           <div className="py-4 px-6 flex justify-between items-center">
-            <div className="text-sm font-medium text-gray-900">Savings</div>
-            <div className="text-sm font-normal text-gray-600">$589.99</div>
+            <div className="text-sm font-medium text-gray-900">Networth</div>
+            <div className="text-sm font-normal text-gray-600">$928.41</div>
           </div>
         </div>
       </div>
@@ -142,7 +151,9 @@ const Detail = () => {
                 <h6 className="text-base font-semibold text-gray-900">
                   Personal Accident
                 </h6>
-                <p className="text-sm font-normal text-gray-600">$2395.29</p>
+                <p className="text-sm font-normal text-gray-600">
+                  Plan A $2395.29
+                </p>
               </div>
             </div>
             <button className="shadow border border-gray-300 rounded-lg px-3 py-2">
