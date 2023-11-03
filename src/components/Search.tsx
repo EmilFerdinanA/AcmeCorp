@@ -8,10 +8,16 @@ import checkmark from "@/assets/checkmark.png";
 interface SearchProps {
   clients: IClients[] | undefined;
   SearchByName: (name: string | null) => void;
+  selectedClient: string | null;
+  setSelectedClient: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const Search: React.FC<SearchProps> = ({ clients, SearchByName }) => {
-  const [selectedClient, setSelectedClient] = useState<string | null>(null);
+const Search: React.FC<SearchProps> = ({
+  clients,
+  SearchByName,
+  selectedClient,
+  setSelectedClient,
+}) => {
   const [dropdownMenu, setDropdownMenu] = useState<boolean>(false);
 
   const handleSelectClient = (name: string) => {
