@@ -92,7 +92,7 @@ const CRM = () => {
         {!error && (activeTab === "clients" || activeTab === null) ? (
           <Table clients={clients} />
         ) : (
-          <ErrorLoadData />
+          <ErrorLoadData page="clients" />
         )}
       </div>
     </section>

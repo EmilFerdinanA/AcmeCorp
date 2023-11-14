@@ -1,7 +1,11 @@
 import Image from "next/image";
 import alert from "@/assets/alert-triangle.svg";
 
-const ErrorLoadData = () => {
+interface ErrorLoadDataProps {
+  page: string;
+}
+
+const ErrorLoadData: React.FC<ErrorLoadDataProps> = ({ page }) => {
   const handleRefresh = () => {
     window.location.reload();
   };
@@ -11,7 +15,7 @@ const ErrorLoadData = () => {
       <Image src={alert} alt={"alert"} />
       <div>
         <h4 className="mb-1 text-rose-900 text-base font-semibold">
-          Opps! Unable to load clients
+          {`Opps! Unable to load ${page}`}
         </h4>
         <p className="text-rose-900 text-sm font-normal">
           Something went wrong that we didn’t anticipate.
