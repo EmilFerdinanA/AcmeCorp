@@ -1,4 +1,8 @@
-export const FormattedDate = (date: string) => {
+export const FormattedDate = (date: string | undefined) => {
+  if (date === undefined) {
+    return "";
+  }
+
   const newDate = new Date(date);
 
   const day = newDate.getUTCDate();
